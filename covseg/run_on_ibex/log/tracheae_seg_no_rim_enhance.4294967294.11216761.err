@@ -1,0 +1,37 @@
+GNU 6.4.0 is now loaded
+ModuleCmd_Load.c(213):ERROR:105: Unable to locate a modulefile for 'cuda/10.0.130'
+Traceback (most recent call last):
+  File "tracheae_seg.py", line 3, in <module>
+    import models.Unet_2D.training_control
+  File "/ibex/scratch/projects/c2052/Lung_CAD_NMI/source_codes/models/Unet_2D/training_control.py", line 57, in <module>
+    training_all_direction(True)
+  File "/ibex/scratch/projects/c2052/Lung_CAD_NMI/source_codes/models/Unet_2D/training_control.py", line 52, in training_all_direction
+    training_one_direction('X', rim_enhanced)
+  File "/ibex/scratch/projects/c2052/Lung_CAD_NMI/source_codes/models/Unet_2D/training_control.py", line 48, in training_one_direction
+    run_model.training(params)
+  File "/ibex/scratch/projects/c2052/Lung_CAD_NMI/source_codes/models/Unet_2D/train.py", line 201, in training
+    train_loop(model, optimizer, train_loader, test_loader, params)
+  File "/ibex/scratch/projects/c2052/Lung_CAD_NMI/source_codes/models/Unet_2D/train.py", line 64, in train_loop
+    for i, sample in enumerate(train_loader):
+  File "/home/zhoul0a/.conda/envs/ml/lib/python3.7/site-packages/torch/utils/data/dataloader.py", line 801, in __next__
+    return self._process_data(data)
+  File "/home/zhoul0a/.conda/envs/ml/lib/python3.7/site-packages/torch/utils/data/dataloader.py", line 846, in _process_data
+    data.reraise()
+  File "/home/zhoul0a/.conda/envs/ml/lib/python3.7/site-packages/torch/_utils.py", line 385, in reraise
+    raise self.exc_type(msg)
+ValueError: Caught ValueError in DataLoader worker process 11.
+Original Traceback (most recent call last):
+  File "/home/zhoul0a/.conda/envs/ml/lib/python3.7/site-packages/torch/utils/data/_utils/worker.py", line 178, in _worker_loop
+    data = fetcher.fetch(index)
+  File "/home/zhoul0a/.conda/envs/ml/lib/python3.7/site-packages/torch/utils/data/_utils/fetch.py", line 44, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/home/zhoul0a/.conda/envs/ml/lib/python3.7/site-packages/torch/utils/data/_utils/fetch.py", line 44, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/ibex/scratch/projects/c2052/Lung_CAD_NMI/source_codes/models/Unet_2D/dataset.py", line 172, in __getitem__
+    arr = np.load(os.path.join(self.image_dir, self.image_files[idx].decode('utf-8')))
+  File "/home/zhoul0a/.conda/envs/ml/lib/python3.7/site-packages/numpy/lib/npyio.py", line 453, in load
+    pickle_kwargs=pickle_kwargs)
+  File "/home/zhoul0a/.conda/envs/ml/lib/python3.7/site-packages/numpy/lib/format.py", line 768, in read_array
+    array.shape = shape
+ValueError: cannot reshape array of size 2016 into shape (512,512,4)
+

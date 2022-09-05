@@ -1,0 +1,99 @@
+build: false
+
+environment:
+  matrix:
+    - PYTHON: "C:\\Python27"
+    - PYTHON: "C:\\Python27-x64"
+#    - PYTHON: "C:\\Python34"
+#    - PYTHON: "C:\\Python34-x64"
+    - PYTHON: "C:\\Python35"
+    - PYTHON: "C:\\Python35-x64"
+    - PYTHON: "C:\\Python36"
+    - PYTHON: "C:\\Python36-x64"
+      DEPLOY: true
+
+  # PyPI deploy info
+  TEST_PYPIUSER: limexp
+  TEST_PYPIPASSWORD:
+    secure: HIdUTIHtAa4Pbb0LRpUCPu/HfEgGfsEUVg6WFiVKloU=
+  
+  PROD_PYPIUSER: limexp
+  PROD_PYPIPASSWORD:
+    secure: eDF2f8sjRPtN+93ElUHhlasUKQ04O2ZtxeiLNeSS1T4=
+
+matrix:
+  fast_finish: false  
+  
+init:
+  - "ECHO %PYTHON%"
+  - set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%
+  - python -V
+  - pip install numpy pandas six xlsxwriter nose xlrd flake8
+
+install:
+  - python setup.py install
+
+test_script:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - git clone https://github.com/Far0n/xgbfi.git
+  - cd xgbfi\bin
+  - copy %APPVEYOR_BUILD_FOLDER%\tests\data\iris.dump xgb.dump
+  - XgbFeatureInteractions.exe
+  - copy XgbFeatureInteractions.xlsx %APPVEYOR_BUILD_FOLDER%\tests\data\iris_1.xlsx
+  - copy %APPVEYOR_BUILD_FOLDER%\tests\data\boston.dump xgb.dump
+  - XgbFeatureInteractions.exe
+  - copy XgbFeatureInteractions.xlsx %APPVEYOR_BUILD_FOLDER%\tests\data\boston_1.xlsx
+  - cd %APPVEYOR_BUILD_FOLDER%\tests\data\
+  - xgbfir -mboston.dump -oboston_2.xlsx
+  - xgbfir -miris.dump -oiris_2.xlsx
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - nosetests --nocapture
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - flake8 --ignore E501 xgbfir/
+  - flake8 --ignore E501 examples/
+
+
+after_test:
+  - echo "DONE!"
+  - pip install wheel twine
+  - echo "BUILDING WHEELS..."
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - python setup.py sdist bdist_wheel
+
+artifacts:
+  - path: dist\*
+    name: pypiartifacts
+
+deploy_script:
+  - echo 'Starting deploy script:'
+  # Account details for PyPI
+  - echo [distutils]                                  > %USERPROFILE%\\.pypirc
+  - echo index-servers =                             >> %USERPROFILE%\\.pypirc
+  - echo     pypi                                    >> %USERPROFILE%\\.pypirc
+  - echo     testpypi                                >> %USERPROFILE%\\.pypirc
+  - echo [testpypi]                                  >> %USERPROFILE%\\.pypirc
+  - echo repository=https://test.pypi.org/legacy/    >> %USERPROFILE%\\.pypirc
+  - echo username=%TEST_PYPIUSER%                    >> %USERPROFILE%\\.pypirc
+  - echo password=%TEST_PYPIPASSWORD%                >> %USERPROFILE%\\.pypirc  
+  - echo [pypi]                                      >> %USERPROFILE%\\.pypirc
+  - echo username=%PROD_PYPIUSER%                    >> %USERPROFILE%\\.pypirc
+  - echo password=%PROD_PYPIPASSWORD%                >> %USERPROFILE%\\.pypirc  
+  - set HOME=%USERPROFILE%
+  - ps: If (-Not $env:APPVEYOR_PULL_REQUEST_NUMBER
+      -And $env:DEPLOY -eq "true"
+      -And $env:APPVEYOR_REPO_BRANCH -eq "master") {
+      Invoke-Expression "twine upload -r testpypi --skip-existing dist/*" 
+      } Else { 
+      write-output "Skip deployment to TESTPYPI"
+      }
+  - ps: If (-Not $env:APPVEYOR_PULL_REQUEST_NUMBER
+      -And $env:DEPLOY -eq "true"
+      -And $env:APPVEYOR_REPO_BRANCH -eq "master"
+      -And $env:APPVEYOR_REPO_TAG -eq "true") {
+      Invoke-Expression "twine upload -r pypi --skip-existing dist/*" 
+      } Else { 
+      write-output "Skip deployment to PYPI"
+      }
+
+on_finish:
+  - echo 'Finished'

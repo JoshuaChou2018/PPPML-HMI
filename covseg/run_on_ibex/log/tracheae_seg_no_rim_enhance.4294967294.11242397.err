@@ -1,0 +1,20 @@
+GNU 6.4.0 is now loaded
+ModuleCmd_Load.c(213):ERROR:105: Unable to locate a modulefile for 'cuda/10.0.130'
+Traceback (most recent call last):
+  File "tracheae_seg.py", line 3, in <module>
+    import models.Unet_2D.training_control
+  File "/ibex/scratch/projects/c2052/Lung_CAD_NMI/source_codes/models/Unet_2D/training_control.py", line 72, in <module>
+    
+  File "/ibex/scratch/projects/c2052/Lung_CAD_NMI/source_codes/models/Unet_2D/training_control.py", line 69, in training_all_test_id
+    for test_id in range(2, 5):
+  File "/ibex/scratch/projects/c2052/Lung_CAD_NMI/source_codes/models/Unet_2D/training_control.py", line 58, in training_one_test_id
+    run_model.training(params)
+  File "/ibex/scratch/projects/c2052/Lung_CAD_NMI/source_codes/models/Unet_2D/train.py", line 212, in training
+    train_loop(model, optimizer, train_loader, test_loader, params)
+  File "/ibex/scratch/projects/c2052/Lung_CAD_NMI/source_codes/models/Unet_2D/train.py", line 85, in train_loop
+    loss.backward()
+  File "/home/zhoul0a/.conda/envs/ml/lib/python3.7/site-packages/torch/tensor.py", line 166, in backward
+    torch.autograd.backward(self, gradient, retain_graph, create_graph)
+  File "/home/zhoul0a/.conda/envs/ml/lib/python3.7/site-packages/torch/autograd/__init__.py", line 99, in backward
+    allow_unreachable=True)  # allow_unreachable flag
+RuntimeError: CUDA out of memory. Tried to allocate 384.00 MiB (GPU 0; 10.76 GiB total capacity; 8.66 GiB already allocated; 378.56 MiB free; 987.57 MiB cached)
