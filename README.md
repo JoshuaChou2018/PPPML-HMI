@@ -41,12 +41,13 @@ python TrainPPPML.py \
 --learning_rate 1e-2 \
 --beta 0.001 \
 --gpu 1 \
---dataset Retina \
+--dataset RAD \
 --optimizer Adam \
 --times 1 \
 --exp ${exp} \
 --onestepupdate 2 \
---retina_checkpoint_root ./result/RAD_${group}
+--HE 0 \
+--RAD_checkpoint_root ./result/RAD_${group}
 done
 done
 ```
