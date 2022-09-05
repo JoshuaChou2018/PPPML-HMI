@@ -109,5 +109,5 @@ If you use our work in your research, please cite our paper:
 
 **Personalized and privacy-preserving federated heterogeneous medical image analysis with PPPML-HMI**
 
-Juexiao Zhoua, Longxi Zhou, Di Wang, Xiaopeng Xu, Haoyang Li, Yuetan Chu, Wenkai Han and Xin Gao
+Juexiao Zhou, Longxi Zhou, Di Wang, Xiaopeng Xu, Haoyang Li, Yuetan Chu, Wenkai Han and Xin Gao
 
