@@ -58,8 +58,8 @@ done
 ![image-20220905200726483](https://cdn.jsdelivr.net/gh/JoshuaChou2018/oss@main/uPic/image-20220905200726483.GcHF3H.png)
 
 ```shell
-group=FedAvg
-
+for group in FedAvg PerAvg CSAPerAvg
+do
 for direction in X Y Z
 do
 for test_id in {0..4}
@@ -82,6 +82,7 @@ python TrainPPPML.py \
 --covid_checkpoint_root result/fedavg1 \
 --covid_client_labels 'A B C D E'
 
+done
 done
 done
 ```
