@@ -105,9 +105,17 @@ evaluate, eg: evaluate_COVID(model, test_loader, params, device)
 
 # Citation
 
-If you use our work in your research, please cite our paper:
+If you find our work helpful, please cite our paper:
 
-**Personalized and privacy-preserving federated heterogeneous medical image analysis with PPPML-HMI**
-
-Juexiao Zhou, Longxi Zhou, Di Wang, Xiaopeng Xu, Haoyang Li, Yuetan Chu, Wenkai Han and Xin Gao
+```
+@article{zhou2024personalized,
+  title={Personalized and privacy-preserving federated heterogeneous medical image analysis with pppml-hmi},
+  author={Zhou, Juexiao and Zhou, Longxi and Wang, Di and Xu, Xiaopeng and Li, Haoyang and Chu, Yuetan and Han, Wenkai and Gao, Xin},
+  journal={Computers in Biology and Medicine},
+  volume={169},
+  pages={107861},
+  year={2024},
+  publisher={Elsevier}
+}
+```
 
